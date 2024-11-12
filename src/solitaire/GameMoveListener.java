@@ -31,13 +31,25 @@ public class GameMoveListener extends MouseInputAdapter {
 					break;
 				}
 			}
+
 		}else if(pressedComponent instanceof Deck) {
-			selectedTaubleau = null;
-			if(!deck.isEmpty()) {
-				Waste waste = GamePanel.getWastePile();
-				waste.push(deck.pop());
-				waste.topCard().showFace();
-			}
+			if(!deck.isEmpty()){
+                Waste waste = GamePanel.getWastePile();
+                waste.push(deck.pop());
+                waste.topCard().showFace();
+             // resetting waste after all cards are visited   
+            }else{
+                System.out.println("Deck is empty");
+                Waste waste = GamePanel.getWastePile();
+                if (waste != null) {
+                    int Size = waste.cards.size();
+                    for (int i = 0; i < Size; i++) {
+                        deck.push(waste.pop());
+                    }
+                } else {
+                    System.err.println("Waste pile is null!");
+                }
+            }
 		}else if(pressedComponent instanceof Waste) {
 			selectedTaubleau = null;
 			waste = GamePanel.getWastePile();
